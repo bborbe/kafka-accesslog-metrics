@@ -6,7 +6,7 @@
 log_format json_combined escape=json
 '{'
     '"body_bytes_sent":"$body_bytes_sent",'
-    '"host":"$host",'
+    '"hostname":"$host",'
     '"http_referrer":"$http_referer",'
     '"http_user_agent":"$http_user_agent",'
     '"http_x_forwarded_for":"$http_x_forwarded_for",'
@@ -27,12 +27,16 @@ log_format json_combined escape=json
 '}';
 ```
 
+```
+access_log /var/log/nginx/access.json json_combined;
+```
+
 ## Filebeat Config
 
 ```
 filebeat.prospectors:
 - paths:
-   - /var/log/*.json
+   - /var/log/nginx/*.json
   input_type: log
   json.keys_under_root: true
   json.add_error_key: true
