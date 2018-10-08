@@ -23,7 +23,10 @@ type Consumer struct {
 func (c *Consumer) Consume(ctx context.Context) error {
 	glog.V(0).Infof("consume topic %s started", c.KafkaTopic)
 
-	consumer, err := sarama.NewConsumer(strings.Split(c.KafkaBrokers, ","), sarama.NewConfig())
+	config := sarama.NewConfig()
+	config.Version = sarama.V2_0_0_0
+
+	consumer, err := sarama.NewConsumer(strings.Split(c.KafkaBrokers, ","), config)
 	if err != nil {
 		return errors.Wrapf(err, "create consumer with brokers %s failed", c.KafkaBrokers)
 	}
